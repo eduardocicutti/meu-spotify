@@ -1,7 +1,9 @@
 # app/playlists/models.py
-from sqlalchemy import String, DateTime, Integer, Boolean, ForeignKey, Index, Text, func, ARRAY
+from sqlalchemy import ARRAY, Boolean, DateTime, ForeignKey, Index, Integer, String, Text, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+
 from app.database import Base
+from app.users.models import User
 
 
 class Playlist(Base):

@@ -1,8 +1,10 @@
 # app/users/service.py
+from datetime import UTC, datetime
+
 from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.users.models import User
-from datetime import datetime, timezone
 
 
 async def get_user_by_id(db: AsyncSession, user_id: str) -> User | None:
@@ -21,16 +23,14 @@ async def upsert_user(
 ) -> User:
     """Cria ou atualiza usuário com tokens do Spotify."""
     user = await get_user_by_id(db, user_id)
-    
+
     if user:
-        # Atualizar existente
         user.display_name = profile.get("display_name")
         user.email = profile.get("email")
         user.access_token_encrypted = access_token_encrypted
         user.refresh_token_encrypted = refresh_token_encrypted
         user.token_expires_at = token_expires_at
     else:
-        # Criar novo
         user = User(
             id=user_id,
             display_name=profile.get("display_name"),
@@ -40,7 +40,7 @@ async def upsert_user(
             token_expires_at=token_expires_at,
         )
         db.add(user)
-    
+
     await db.commit()
     await db.refresh(user)
     return user
@@ -71,6 +71,6 @@ async def update_last_sync(db: AsyncSession, user_id: str) -> None:
     await db.execute(
         update(User)
         .where(User.id == user_id)
-        .values(last_sync_at=datetime.now(timezone.utc))
+        .values(last_sync_at=datetime.now(UTC))
     )
     await db.commit()

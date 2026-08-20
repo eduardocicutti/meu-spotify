@@ -1,11 +1,12 @@
 # app/auth/dependencies.py
 from fastapi import Depends, HTTPException, Request, status
 from sqlalchemy.ext.asyncio import AsyncSession
+
+from app.auth.security import decrypt_token, verify_session_token
 from app.database import get_db
-from app.auth.security import verify_session_token
-from app.users.service import get_user_by_id
 from app.spotify.client import SpotifyClient
-from app.auth.security import decrypt_token
+from app.users.models import User
+from app.users.service import get_user_by_id
 
 
 async def get_current_user_id(request: Request) -> str:
@@ -30,7 +31,6 @@ async def get_current_user(
     db: AsyncSession = Depends(get_db),
 ) -> User:
     """Retorna usuário autenticado completo."""
-    from app.users.models import User
     user = await get_user_by_id(db, user_id)
     if not user:
         raise HTTPException(

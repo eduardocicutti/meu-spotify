@@ -1,8 +1,9 @@
 # app/auth/router.py
-from fastapi import APIRouter, Request, Response, Depends, status
+from fastapi import APIRouter, Depends, Request, Response
 from fastapi.responses import RedirectResponse
-from app.auth.service import get_authorize_url, handle_callback
+
 from app.auth.dependencies import get_current_user
+from app.auth.service import get_authorize_url, handle_callback
 from app.users.models import User
 
 router = APIRouter(prefix="/auth", tags=["auth"])
@@ -15,7 +16,7 @@ async def login(request: Request):
     # Gerar state aleatório para segurança
     import secrets
     state = secrets.token_urlsafe(32)
-    
+
     # Guardar state na sessão (simplificado - em produção usar Redis)
     # Para dev, vamos passar no redirect
     auth_url = get_authorize_url(state)
@@ -26,7 +27,7 @@ async def login(request: Request):
 async def callback(request: Request, code: str, state: str):
     """Callback do OAuth - troca code por tokens e cria sessão."""
     session_token = await handle_callback(code, state)
-    
+
     # Redirect para frontend com cookie
     response = RedirectResponse(url="/")
     response.set_cookie(

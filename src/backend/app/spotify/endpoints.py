@@ -17,22 +17,22 @@ ENDPOINTS = {
     "me_top_tracks": "/me/top/tracks",
     "me_recently_played": "/me/player/recently-played",
     "me_following": "/me/following",
-    
+
     # Playlists
     "playlist": "/playlists/{playlist_id}",
     "playlist_items": "/playlists/{playlist_id}/items",
     "playlist_cover": "/playlists/{playlist_id}/images",
-    
+
     # Artistas (para buscar gêneros)
     "artist": "/artists/{artist_id}",
     "artists_batch": "/artists",
-    
+
     # Tracks
     "track": "/tracks/{track_id}",
     "tracks_batch": "/tracks",
     "audio_features": "/audio-features",
     "audio_features_track": "/audio-features/{track_id}",
-    
+
     # Search
     "search": "/search",
 }

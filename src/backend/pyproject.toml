@@ -25,26 +25,13 @@ dev = [
 [tool.ruff]
 target-version = "py312"
 line-length = 100
-indent-style = "space"
-indent-width = 2
-quote-style = "single"
-docstring-code-format = true
-
-[tool.ruff.lint]
-select = [
-    "E", "W", "F", "I", "N", "UP", "B", "C4", "T20", "PT", "ARG", "PTH", "ERA", "PL", "TRY"
-]
-ignore = [
-    "E501", "B008", "C901", "T201", "ARG001", "ARG002"
-]
+select = ["E", "W", "F", "I", "N", "UP", "B", "C4", "T20", "PT", "ARG", "PTH", "ERA", "PL", "TRY"]
+ignore = ["E501", "B008", "C901", "T201", "ARG001", "ARG002"]
 per-file-ignores = { "tests/*" = ["T201", "S101", "ARG001", "ARG002"], "scripts/*" = ["T201", "S101"], "migrations/*" = ["T201", "S101", "ERA001"] }
-
-[tool.ruff.format]
-quote-style = "single"
-indent-style = "space"
-indent-width = 2
-line-ending = "lf"
-docstring-code-format = true
+format.quote-style = "single"
+format.indent-style = "space"
+format.line-ending = "lf"
+format.docstring-code-format = true
 
 [tool.mypy]
 python_version = "3.12"

@@ -1,17 +1,16 @@
 # app/spotify/client.py
 import asyncio
 import logging
-from typing import Any
+
 import httpx
+
 from app.config import get_settings
-from app.spotify.endpoints import BASE_URL, FIELDS, PAGINATION_LIMITS
+from app.spotify.endpoints import BASE_URL, FIELDS
 from app.spotify.exceptions import (
-    SpotifyAPIError,
-    RateLimitError,
-    TokenExpiredError,
     InsufficientScopeError,
     NotFoundError,
-    ServerError,
+    SpotifyAPIError,
+    TokenExpiredError,
 )
 
 logger = logging.getLogger(__name__)
@@ -19,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 class SpotifyClient:
     """Cliente assíncrono para Spotify Web API com rate limit, retry e paginação."""
-    
+
     def __init__(self, access_token: str):
         self.token = access_token
         self.base_url = BASE_URL
@@ -38,7 +37,7 @@ class SpotifyClient:
     ) -> httpx.Response:
         url = f"{self.base_url}{path}"
         request_headers = {"Authorization": f"Bearer {self.token}", **(headers or {})}
-        
+
         # Adicionar fields para reduzir payload se for GET
         request_params = params or {}
         if use_fields and method == "GET" and "fields" not in request_params:
@@ -47,7 +46,7 @@ class SpotifyClient:
                 if key in path or path.endswith(key):
                     request_params["fields"] = fields_value
                     break
-        
+
         async with self._semaphore:
             for attempt in range(3):
                 try:
@@ -60,34 +59,34 @@ class SpotifyClient:
                         raise SpotifyAPIError(f"Erro de rede após 3 tentativas: {e}")
                     await asyncio.sleep(2 ** attempt)
                     continue
-                
+
                 # Rate limit
                 if resp.status_code == 429:
                     retry_after = int(resp.headers.get("Retry-After", 2 ** attempt))
                     logger.warning(f"Rate limited, waiting {retry_after}s")
                     await asyncio.sleep(retry_after)
                     continue
-                
+
                 # Token expirado
                 if resp.status_code == 401:
                     raise TokenExpiredError("Access token expirado ou inválido")
-                
+
                 # Scope insuficiente
                 if resp.status_code == 403:
                     raise InsufficientScopeError("Scope insuficiente para esta operação")
-                
+
                 # Não encontrado
                 if resp.status_code == 404:
                     raise NotFoundError("Recurso não encontrado")
-                
+
                 # Erro do servidor
                 if 500 <= resp.status_code < 600:
                     logger.warning(f"Server error {resp.status_code}, retry {attempt + 1}/3")
                     await asyncio.sleep(2 ** attempt)
                     continue
-                
+
                 return resp
-            
+
             raise SpotifyAPIError(f"Max retries exceeded for {method} {path}")
 
     async def get(self, path: str, params: dict | None = None) -> dict:
@@ -122,7 +121,7 @@ class SpotifyClient:
         url = f"{self.base_url}{path}"
         fetched = 0
         pages = 0
-        
+
         while url and (limit is None or fetched < limit) and (max_pages is None or pages < max_pages):
             # Se url já é absoluta (next), usar direto
             if url.startswith("http"):
@@ -138,19 +137,19 @@ class SpotifyClient:
                     data = resp.json()
             else:
                 data = await self._request("GET", url, params=params)
-            
+
             items = data.get("items", [])
             results.extend(items)
             fetched += len(items)
-            
+
             url = data.get("next")
             params = None  # 'next' já inclui os params
             pages += 1
-            
+
             if limit and fetched >= limit:
                 results = results[:limit]
                 break
-        
+
         return results
 
     async def close(self):

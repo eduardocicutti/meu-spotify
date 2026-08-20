@@ -1,6 +1,7 @@
 # app/config.py
-from pydantic_settings import BaseSettings, SettingsConfigDict
 from functools import lru_cache
+
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
@@ -23,7 +24,6 @@ class Settings(BaseSettings):
     # Redis
     REDIS_URL: str = "redis://localhost:6379/0"
 
-    # Frontend (CORS)
     FRONTEND_URL: str = "http://127.0.0.1:5173"
 
     # Cache TTLs (seconds)
