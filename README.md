@@ -6,13 +6,13 @@ Um painel pessoal para organizar, analisar e gerenciar sua conta do Spotify com 
 
 ---
 
-## 🎯 Visão Geral
+## Visão Geral
 
 O Meu Spotify resolve o problema que o app nativo não resolve: **organização real da sua biblioteca**. Com o tempo, playlists duplicadas, músicas repetidas em múltiplas playlists, playlists abandonadas e faixas removidas do catálogo viram um caos. Este projeto detecta esses problemas e dá ações diretas para corrigi-los.
 
 ---
 
-## ✨ Funcionalidades (V1 - MVP)
+## Funcionalidades (V1 - MVP)
 
 ### 📊 Dashboard Pessoal
 - Total de músicas, artistas, álbuns e horas de música
@@ -33,7 +33,7 @@ O Meu Spotify resolve o problema que o app nativo não resolve: **organização 
 
 ---
 
-## 🛠 Stack Tecnológica
+## Stack 
 
 | Camada | Tecnologia |
 |--------|------------|
@@ -44,7 +44,7 @@ O Meu Spotify resolve o problema que o app nativo não resolve: **organização 
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Pré-requisitos
 - Docker + Docker Compose
@@ -105,7 +105,7 @@ cd frontend && npm install && npm run dev
 
 ---
 
-## 📁 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 meu-spotify/
@@ -151,7 +151,7 @@ meu-spotify/
 
 ---
 
-## ⚠️ Restrições Importantes (Spotify API 2026)
+## Restrições Importantes (Spotify API 2026)
 
 | Restrição | Detalhe |
 |-----------|---------|
@@ -185,7 +185,7 @@ npm run build
 
 ---
 
-## 📦 Deploy (Produção)
+## Deploy (Produção)
 
 1. **Backend**: Render, Fly.io ou VPS com Docker
 2. **Frontend**: Vercel ou Netlify
@@ -196,7 +196,7 @@ npm run build
 
 ---
 
-## 🤝 Contribuindo
+## Contribuindo
 
 1. Fork o projeto
 2. Crie uma branch: `git checkout -b feature/nova-funcionalidade`
@@ -208,18 +208,16 @@ Commits seguem [Conventional Commits](https://www.conventionalcommits.org/).
 
 ---
 
-## 📄 Licença
+## Licença
 
 MIT License — uso comercial, modificação e distribuição permitidos.
 
 ---
 
-## 🙋‍♂️ Autor
+## Autor
 
 **Eduardo Cicutti**  
 Estudante CC CEUNES/UFES • Adapti Soluções Web  
 [LinkedIn](https://www.linkedin.com/in/eduardo-cicutti/)
 
 ---
-
-*Feito com 💚 para a comunidade brasileira de desenvolvedores e amantes de música.*
